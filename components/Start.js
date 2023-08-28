@@ -29,7 +29,7 @@ const Start = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
-        <Text style={styles.appTitle}>Chatty</Text>
+        <Text style={styles.appTitle}>Chirp</Text>
         <KeyboardAvoidingView
           style={[styles.inputContainer, styles.whiteBox]}
           behavior="padding">
@@ -45,7 +45,7 @@ const Start = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.circle, bgColors.black]}
               onPress={() => {
-                console.log('Selected color:', bgColors.black.backgroundColor);
+                //console.log('Selected color:', bgColors.black.backgroundColor);
                 setColor(bgColors.black);
               }}></TouchableOpacity>
             <TouchableOpacity
@@ -69,6 +69,9 @@ const Start = ({ navigation }) => {
             }>
             <Text>Go chat</Text>
           </TouchableOpacity>
+          {Platform.OS === 'ios' ? (
+            <KeyboardAvoidingView behavior="padding" />
+          ) : null}
         </KeyboardAvoidingView>
       </ImageBackground>
     </View>
@@ -126,14 +129,12 @@ const styles = StyleSheet.create({
     width: '88%',
     height: '44%',
     alignItems: 'center',
-    margin: 'auto',
-    marginLeft: 25,
-    marginBottom: 40,
-    //padding: 40,
-    justifyContent: 'center',
+    margin: 25,
+    alignSelf: 'center',
+    padding: 15,
   },
   colorContainer: {
-    //flex: 2,
+    //flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     //flexWrap: 'wrap',
@@ -150,11 +151,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  inputContainer: {
-    flex: 1,
+  /*inputContainer: {
+    //flex: 1,
     backgroundColor: '#0000000',
     padding: '6%',
-  },
+  },*/
   wrap: {},
   icon: {
     marginRight: 10,
