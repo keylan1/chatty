@@ -6,6 +6,7 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { useState } from 'react';
 import { SvgUri } from 'react-native-svg';
@@ -29,7 +30,9 @@ const Start = ({ navigation }) => {
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
         <Text style={styles.appTitle}>Chatty</Text>
-        <View style={[styles.inputContainer, styles.whiteBox]}>
+        <KeyboardAvoidingView
+          style={[styles.inputContainer, styles.whiteBox]}
+          behavior="padding">
           <TextInput
             style={styles.textInput}
             value={name}
@@ -66,7 +69,7 @@ const Start = ({ navigation }) => {
             }>
             <Text>Go chat</Text>
           </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
     </View>
   );
@@ -118,18 +121,22 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   whiteBox: {
+    flex: 1,
     backgroundColor: 'white',
     width: '88%',
-    height: 200,
+    height: '44%',
     alignItems: 'center',
     margin: 'auto',
     marginLeft: 25,
     marginBottom: 40,
+    //padding: 40,
+    justifyContent: 'center',
   },
   colorContainer: {
-    flex: 1,
+    //flex: 2,
     flexDirection: 'row',
     justifyContent: 'center',
+    //flexWrap: 'wrap',
   },
   button: {
     fontSize: 16,
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0000000',
     padding: '6%',
   },
-
+  wrap: {},
   icon: {
     marginRight: 10,
   },
