@@ -67,7 +67,7 @@ const Start = ({ navigation }) => {
                 color: color,
               })
             }>
-            <Text>Go chat</Text>
+            <Text style={styles.buttonText}>Go chat</Text>
           </TouchableOpacity>
           {Platform.OS === 'ios' ? (
             <KeyboardAvoidingView behavior="padding" />
@@ -141,14 +141,20 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
     width: '88%',
     height: 45,
-    fontWeight: '600',
-    color: '#FFFFFF,',
     backgroundColor: '#757083',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+  },
+
+  buttonText: {
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 16,
   },
 
   /*inputContainer: {
