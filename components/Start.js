@@ -2,14 +2,14 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   TextInput,
   ImageBackground,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { useState } from 'react';
-import { SvgUri } from 'react-native-svg';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const bgColors = {
   black: { backgroundColor: '#090C08' },
@@ -21,6 +21,25 @@ const bgColors = {
 const Start = ({ navigation }) => {
   const [name, setName] = useState('');
   const [color, setColor] = useState(bgColors.black);
+
+  //firebase auth
+  const auth = getAuth();
+
+  //anonymous authentication, passes uid, name and color
+  const signInUser = () => {
+    signInAnonymously(auth)
+      .then((result) => {
+        navigation.navigate('Chat', {
+          userID: result.user.uid,
+          name: name,
+          color: color,
+        });
+        //Alert.alert('Signed in Successfully');
+      })
+      .catch((error) => {
+        Alert.alert('Unable to sign in');
+      });
+  };
 
   const image = require('../assets/BackgroundImage.png');
   const icon = require('../assets/icon.svg');
@@ -61,12 +80,7 @@ const Start = ({ navigation }) => {
           </View>
           <TouchableOpacity
             style={[styles.button, { display: 'flex' }]}
-            onPress={() =>
-              navigation.navigate('Chat', {
-                name: name,
-                color: color,
-              })
-            }>
+            onPress={signInUser}>
             <Text style={styles.buttonText}>Go chat</Text>
           </TouchableOpacity>
           {Platform.OS === 'ios' ? (
