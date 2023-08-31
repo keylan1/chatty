@@ -18,10 +18,20 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   console.log('userID', userID);
   console.log('name', name);
 
+  //whatever messagse are loaded in the useEffect on connection, store them in the cache
+  const cacheMessages = async (messagesToCache) => {
+    try {
+      await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   //async function to load cached list from storage to be used in useEffect
   // if load fails, then initialize []
   const loadCachedMsgs = async () => {
     const cachedMsgs = (await AsyncStorage.getItem('messages')) || [];
+    setMessages(JSON.parse(cachedMsgs));
   };
 
   // declare outside useEffect so reference is preserved and old listener can be removed
@@ -60,15 +70,6 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       if (unsubMessages) unsubMessages();
     }; //useEffect needs to refresh whenever there is a connection change
   }, [isConnected]);
-
-  //whatever messagse are loaded in the useEffect on connection, store them in the cache
-  const cacheMessages = async (messagesToCache) => {
-    try {
-      await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   //customizing UI chat with renderBubble (custom message bubble), given a new wrapperstyle, right sender
   const renderBubble = (props) => {
