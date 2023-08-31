@@ -38,21 +38,21 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       if (unsubMessages) unsubMessages();
       unsubMessages = null;
 
-    //read from db
-    const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-    unsubMessages = onSnapshot(q, (documentSnapshot) => {
-      let newMessages = [];
-      documentSnapshot.forEach((msg) => {
-        const obj = msg.data();
-        newMessages.push({
-          _id: msg.id,
-          ...obj,
-          createdAt: obj.createdAt.toDate(),
+      //read from db
+      const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      unsubMessages = onSnapshot(q, (documentSnapshot) => {
+        let newMessages = [];
+        documentSnapshot.forEach((msg) => {
+          const obj = msg.data();
+          newMessages.push({
+            _id: msg.id,
+            ...obj,
+            createdAt: obj.createdAt.toDate(),
+          });
         });
+        cacheMessages(newMessages);
+        setMessages(newMessages);
       });
-      cacheMessages(newMessages);
-      setMessages(newMessages);
-    });
       // else get from AsyncStorage
     } else loadCachedMsgs();
     //clean up code
@@ -87,7 +87,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     );
   };
 
-  const renderToolBar = (props) => {
+  const renderInputToolbar = (props) => {
     if (isConnected) return <InputToolbar {...props} />;
     else return null;
   };
@@ -110,7 +110,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       <GiftedChat
         messages={messages}
         renderBubble={renderBubble}
-        renderToolbar={renderToolBar}
+        renderInputToolbar={renderInputToolbar}
         onSend={(messages) => onSend(messages)}
         user={{
           _id: userID,
