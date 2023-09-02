@@ -9,6 +9,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomActions from './CustomActions';
 
 const Chat = ({ route, navigation, db, isConnected }) => {
   const [messages, setMessages] = useState([]);
@@ -98,6 +99,10 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     addDoc(collection(db, 'messages'), newMessages[0]);
   };
 
+  const renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  };
+
   //for the username to be in the title
   /* useEffect(() => {
     navigation.setOptions({ title: name });
@@ -113,6 +118,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
         onSend={(messages) => onSend(messages)}
+        renderActions={renderCustomActions}
         user={{
           _id: userID,
           name: name,
