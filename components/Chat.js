@@ -9,6 +9,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomActions from './CustomActions';
 
 const Chat = ({ route, navigation, db, isConnected }) => {
   const [messages, setMessages] = useState([]);
@@ -18,14 +19,25 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   console.log('userID', userID);
   console.log('name', name);
 
+  //whatever messagse are loaded in the useEffect on connection, store them in the cache
+  const cacheMessages = async (messagesToCache) => {
+    try {
+      await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   //async function to load cached list from storage to be used in useEffect
   // if load fails, then initialize []
   const loadCachedMsgs = async () => {
     const cachedMsgs = (await AsyncStorage.getItem('messages')) || [];
+    setMessages(JSON.parse(cachedMsgs));
   };
 
   // declare outside useEffect so reference is preserved and old listener can be removed
   let unsubMessages;
+
   //The format and info the GiftedChat msgs require.
   useEffect(() => {
     //name at top of chat
@@ -36,6 +48,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       //useEffect code is re-executed
       if (unsubMessages) unsubMessages();
       unsubMessages = null;
+
       //read from db
       const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
       unsubMessages = onSnapshot(q, (documentSnapshot) => {
@@ -50,23 +63,14 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         });
         cacheMessages(newMessages);
         setMessages(newMessages);
-      }); // else get from AsyncStorage
+      });
+      // else get from AsyncStorage
     } else loadCachedMsgs();
-
     //clean up code
     return () => {
       if (unsubMessages) unsubMessages();
-    }; ////useEffect needs to refresh whenever there is a connection change
+    }; //useEffect needs to refresh whenever there is a connection change
   }, [isConnected]);
-
-  //whatever messagse are loaded in the useEffect on connection, store them in the cache
-  const cacheMessages = async (messagesToCache) => {
-    try {
-      await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   //customizing UI chat with renderBubble (custom message bubble), given a new wrapperstyle, right sender
   const renderBubble = (props) => {
@@ -85,7 +89,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     );
   };
 
-  const renderToolBar = (props) => {
+  const renderInputToolbar = (props) => {
     if (isConnected) return <InputToolbar {...props} />;
     else return null;
   };
@@ -93,6 +97,10 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   //GiftedChat onSend function
   const onSend = (newMessages) => {
     addDoc(collection(db, 'messages'), newMessages[0]);
+  };
+
+  const renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
   };
 
   //for the username to be in the title
@@ -108,8 +116,9 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       <GiftedChat
         messages={messages}
         renderBubble={renderBubble}
-        renderToolbar={renderToolBar}
+        renderInputToolbar={renderInputToolbar}
         onSend={(messages) => onSend(messages)}
+        renderActions={renderCustomActions}
         user={{
           _id: userID,
           name: name,
