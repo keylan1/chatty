@@ -19,7 +19,7 @@ This is a chat application built using React Native, Expo, and Google Firestore 
 
 ### Setting up the Development Environment
 
-1. **Expo:** Make sure you have Expo CLI installed. If not, you can install it globally using npm:
+1. **Expo:** Set up an Expo account. Make sure you have Expo CLI installed. If not, you can install it globally using npm:
 
 npm install -g expo-cli
 
@@ -29,7 +29,7 @@ npm install -g expo-cli
 
 This app uses Firebase as the backend database. To configure Firebase:
 
-1. Visit the [Firebase Console](https://console.firebase.google.com/) and create a new project if you don't have one already.
+1. Visit the [Firebase Console](https://console.firebase.google.com/) and create a new project if you don't have one already. In the "Rules" tab, change "allow read, write: if false;" to "allow read, write: if true;"
 
 2. Set up Firebase Authentication (Anonymous Authentication is used in this app) and Firestore Database. Make sure to enable anonymous authentication in Firebase.
 
@@ -52,10 +52,23 @@ In the App.js file of your project, replace the firebaseConfig object with your 
 ## Necessary Libraries to Install
 
 Before running the app, make sure to install the required dependencies using npm or yarn:
+(Expo only supports Node up to version 16.19.0, please ensure you are using this version)
 
-npm install @react-native-async-storage/async-storage @react-native-community/netinfo @react-navigation/native @react-navigation/native-stack expo firebase react react-native react-native-gifted-chat react-native-safe-area-context react-native-screens react-native-svg expo-image-picker expo-location react-native-maps
+npm install
+@react-native-async-storage/async-storage
+@react-native-community/netinfo
+@react-navigation/native
+@react-navigation/native-stack
+expo firebase
+react-native
+react-native-gifted-chat
+react-native-safe-area-context
+react-native-screens
+expo-image-picker
+expo-location
+react-native-maps
 
-This will install all the dependencies needed to run the app successfully.
+This will install all the dependencies needed to run the app.
 
 ## Running the App
 
@@ -64,6 +77,9 @@ Now that you've set up the environment and Firebase, you can run the app:
 expo start
 
 This command will start the Expo development server, and you can run the app on an emulator or a physical device.
+
+(expo start -c to clear cache)
+(expo start --offline for offline testing)
 
 ## License
 
