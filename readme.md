@@ -1,4 +1,6 @@
-# React Native Chat App with Expo and Firestore
+# Chirp
+
+## React Native Chat App with Expo and Firestore
 
 This is a chat application built using React Native, Expo, and Google Firestore Database. The app allows users to enter their name, choose a background color for the chat screen, engage in text conversations, send images, and share location data. The chat data is stored both online and offline using Google Firestore Database.
 
@@ -15,11 +17,53 @@ This is a chat application built using React Native, Expo, and Google Firestore 
 ![Screenshot 1](screenshots/screenshot1.png)
 ![Screenshot 2](screenshots/screenshot2.png)
 
-## Built With
+### Setting up the Development Environment
 
-- React Native
-- Expo
-- Google Firestore Database
+1. **Expo:** Make sure you have Expo CLI installed. If not, you can install it globally using npm:
+
+npm install -g expo-cli
+
+2. **Android Studio:** If you plan to run the app on an Android emulator, you'll need to set up Android Studio. Follow the official Expo guide for instructions on setting up the Android development environment: [Expo Android Development Environment](https://docs.expo.dev/workflow/android-studio-emulator/)
+
+### Database Configuration
+
+This app uses Firebase as the backend database. To configure Firebase:
+
+1. Visit the [Firebase Console](https://console.firebase.google.com/) and create a new project if you don't have one already.
+
+2. Set up Firebase Authentication (Anonymous Authentication is used in this app) and Firestore Database. Make sure to enable anonymous authentication in Firebase.
+
+3. Obtain the Firebase configuration object for your project. It should look something like this:
+
+```javascript
+const firebaseConfig = {
+  apiKey: 'YOUR_API_KEY',
+  authDomain: 'YOUR_AUTH_DOMAIN',
+  projectId: 'YOUR_PROJECT_ID',
+  storageBucket: 'YOUR_STORAGE_BUCKET',
+  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+  appId: 'YOUR_APP_ID',
+  measurementId: 'YOUR_MEASUREMENT_ID',
+};
+```
+
+In the App.js file of your project, replace the firebaseConfig object with your own Firebase configuration.
+
+## Necessary Libraries to Install
+
+Before running the app, make sure to install the required dependencies using npm or yarn:
+
+npm install @react-native-async-storage/async-storage @react-native-community/netinfo @react-navigation/native @react-navigation/native-stack expo firebase react react-native react-native-gifted-chat react-native-safe-area-context react-native-screens react-native-svg expo-image-picker expo-location react-native-maps
+
+This will install all the dependencies needed to run the app successfully.
+
+## Running the App
+
+Now that you've set up the environment and Firebase, you can run the app:
+
+expo start
+
+This command will start the Expo development server, and you can run the app on an emulator or a physical device.
 
 ## License
 
