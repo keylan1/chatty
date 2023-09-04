@@ -48,9 +48,26 @@ const Start = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
-        <Text style={styles.appTitle}>Chirp</Text>
+        <Text
+          style={[
+            styles.appTitle,
+            Platform.OS === 'ios' && { paddingTop: 30 },
+          ]}>
+          Chirp
+        </Text>
         <KeyboardAvoidingView
-          style={[styles.inputContainer, styles.whiteBox]}
+          style={[
+            styles.inputContainer,
+            styles.whiteBox,
+            Platform.OS === 'ios' && {
+              behavior: 'padding',
+              //flex: 1,
+              paddingBottom: 16,
+              // marginBottom: -100,
+              // margin: 'auto',
+            }, // Apply padding only for iOS
+            //Platform.OS === 'android' && { behavior: 'padding' }, // Apply behavior only for Android
+          ]}
           behavior="padding">
           <TextInput
             style={styles.textInput}
@@ -82,9 +99,9 @@ const Start = ({ navigation }) => {
             onPress={signInUser}>
             <Text style={styles.buttonText}>Go chat</Text>
           </TouchableOpacity>
-          {Platform.OS === 'ios' ? (
+          {/*  {Platform.OS === 'ios' && { paddingBottom: 16 } ? (
             <KeyboardAvoidingView behavior="padding" />
-          ) : null}
+        ) : null} */}
         </KeyboardAvoidingView>
       </ImageBackground>
     </View>
