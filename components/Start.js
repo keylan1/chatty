@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
+  Platform,
 } from 'react-native';
 import { useState } from 'react';
 import { getAuth, signInAnonymously } from 'firebase/auth';
@@ -56,18 +57,7 @@ const Start = ({ navigation }) => {
           Chirp
         </Text>
         <KeyboardAvoidingView
-          style={[
-            styles.inputContainer,
-            styles.whiteBox,
-            Platform.OS === 'ios' && {
-              behavior: 'padding',
-              //flex: 1,
-              paddingBottom: 16,
-              // marginBottom: -100,
-              // margin: 'auto',
-            }, // Apply padding only for iOS
-            //Platform.OS === 'android' && { behavior: 'padding' }, // Apply behavior only for Android
-          ]}
+          style={[styles.whiteBox, styles.ios]}
           behavior="padding">
           <TextInput
             style={styles.textInput}
@@ -99,9 +89,8 @@ const Start = ({ navigation }) => {
             onPress={signInUser}>
             <Text style={styles.buttonText}>Go chat</Text>
           </TouchableOpacity>
-          {/*  {Platform.OS === 'ios' && { paddingBottom: 16 } ? (
-            <KeyboardAvoidingView behavior="padding" />
-        ) : null} */}
+          {/* {Platform.OS === 'ios' ? (
+            <KeyboardAvoidingView behavior="padding"/>) : null}*/}
         </KeyboardAvoidingView>
       </ImageBackground>
     </View>
@@ -187,6 +176,7 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 10,
   },
+  ios: {},
 });
 
 export default Start;
