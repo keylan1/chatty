@@ -1,13 +1,21 @@
-import { useState, useEffect } from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 //component for the action button
 
-const CustomActions = ({ wrapperStyle, iconTextStyle }) => {
+const CustomActions = ({
+  wrapperStyle,
+  iconTextStyle,
+  onSend,
+  userID,
+  storage,
+}) => {
   //job is to fetch whatever actionsheet is included in the wrapper. (GiftedChat is wrapper)
   const actionSheet = useActionSheet();
+
   const onActionPress = () => {
     const options = [
       'Choose from library',
@@ -28,7 +36,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle }) => {
             pickImage();
             return;
           case 1:
-            takePhoto();
+            takePic();
             return;
           case 2:
             getLocation();
@@ -36,6 +44,81 @@ const CustomActions = ({ wrapperStyle, iconTextStyle }) => {
         }
       }
     );
+  };
+
+  //convert image to blob to upload to storage
+  const pickImage = async () => {
+    let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissions?.granted) {
+      let result = await ImagePicker.launchImageLibraryAsync();
+      if (!result.canceled) await uploadAndSendPic(result.assets[0].uri);
+      else Alert.alert('Permission denied');
+    }
+  };
+
+  const takePic = async () => {
+    let permissions = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissions?.granted) {
+      let result = await ImagePicker.launchCameraAsync();
+      if (!result.canceled) await uploadAndSendPic(result.assets[0].uri);
+      else Alert.alert('Permission denied');
+    }
+  };
+
+  const getLocation = async () => {
+    let permissions = await Location.requestForegroundPermissionsAsync();
+    if (permissions?.granted) {
+      let location = await Location.getCurrentPositionAsync({});
+      if (location) {
+        onSend({
+          location: {
+            longitude: location.coords.longitude,
+            latitude: location.coords.latitude,
+          },
+        });
+      } else Alert.alert('Permission not granted');
+    } else Alert.alert('Permission not granted');
+  };
+
+  //generate a unique string for image
+  const generateReference = (uri) => {
+    const timeStamp = new Date().getTime();
+    const imageName = uri.split('/')[uri.split('/').length - 1];
+    return `${userID}-${timeStamp}-${imageName}`;
+  };
+
+  //XHR required as react native no longer supports the fetch() in the blob conversion
+  const convertFileToBlob = async (uri) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (error) {
+        reject(new Error('XHR request failed'));
+      };
+      xhr.responseType = 'blob';
+
+      xhr.open('GET', uri, true);
+      xhr.send();
+    });
+  };
+
+  //for both takePic and pickImage
+  const uploadAndSendPic = async (imageURI) => {
+    //to call the generateRef function on the uri
+    const uniqueRefString = generateReference(imageURI);
+    // location and name in storage
+    const newUploadRef = ref(storage, uniqueRefString);
+    //convert into blob (binary large object)
+    const blob = await convertFileToBlob(imageURI);
+    // upload it and get a url for download
+    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+      console.log('File uploaded sucessfully');
+      const imageURL = await getDownloadURL(snapshot.ref);
+      //using the image prop of msg obj, send image
+      onSend({ image: imageURL });
+    });
   };
 
   return (

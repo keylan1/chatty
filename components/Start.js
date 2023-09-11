@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
+  Platform,
 } from 'react-native';
 import { useState } from 'react';
 import { getAuth, signInAnonymously } from 'firebase/auth';
@@ -48,9 +49,15 @@ const Start = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
-        <Text style={styles.appTitle}>Chirp</Text>
+        <Text
+          style={[
+            styles.appTitle,
+            Platform.OS === 'ios' && { paddingTop: 30 },
+          ]}>
+          Chirp
+        </Text>
         <KeyboardAvoidingView
-          style={[styles.inputContainer, styles.whiteBox]}
+          style={[styles.whiteBox, styles.ios]}
           behavior="padding">
           <TextInput
             style={styles.textInput}
@@ -73,7 +80,6 @@ const Start = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.circle, bgColors.blue]}
               onPress={() => setColor(bgColors.blue)}></TouchableOpacity>
-
             <TouchableOpacity
               style={[styles.circle, bgColors.green]}
               onPress={() => setColor(bgColors.green)}></TouchableOpacity>
@@ -83,9 +89,8 @@ const Start = ({ navigation }) => {
             onPress={signInUser}>
             <Text style={styles.buttonText}>Go chat</Text>
           </TouchableOpacity>
-          {Platform.OS === 'ios' ? (
-            <KeyboardAvoidingView behavior="padding" />
-          ) : null}
+          {/* {Platform.OS === 'ios' ? (
+            <KeyboardAvoidingView behavior="padding"/>) : null}*/}
         </KeyboardAvoidingView>
       </ImageBackground>
     </View>
@@ -95,8 +100,6 @@ const Start = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //justifyContent: 'center',
-    //alignItems: 'center',
   },
   appTitle: {
     flex: 2,
@@ -104,6 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFFFFF',
     alignSelf: 'center',
+    paddingTop: 75,
   },
   yourName: {
     fontSize: 16,
@@ -116,8 +120,6 @@ const styles = StyleSheet.create({
     width: '88%',
     padding: 15,
     borderWidth: 1,
-    marginTop: 15,
-    marginBottom: 15,
     justifyContent: 'center',
     color: '#757083',
     borderColor: '#757083',
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '300',
     color: 'rgba(117, 128, 131, 1)',
+    paddingTop: 10,
   },
   image: {
     height: '100%',
@@ -138,20 +141,20 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   whiteBox: {
-    flex: 1,
+    flex: 1.2,
     backgroundColor: 'white',
     width: '88%',
     height: '44%',
     alignItems: 'center',
     margin: 25,
     alignSelf: 'center',
-    padding: 15,
+    padding: 25,
+    borderRadius: 15,
   },
   colorContainer: {
-    //flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    //flexWrap: 'wrap',
+    padding: 10,
   },
   button: {
     fontSize: 16,
@@ -168,18 +171,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFF',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 18,
   },
-
-  /*inputContainer: {
-    //flex: 1,
-    backgroundColor: '#0000000',
-    padding: '6%',
-  },*/
-  wrap: {},
   icon: {
     marginRight: 10,
   },
+  ios: {},
 });
 
 export default Start;
