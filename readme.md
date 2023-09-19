@@ -1,8 +1,17 @@
-# Chirp
+# Chirp - React Native Chat App with Expo and Firestore
 
-## React Native Chat App with Expo and Firestore
+## Description
 
-This is a chat application built using React Native, Expo, and Google Firestore Database. The app allows users to enter their name, choose a background color for the chat screen, engage in text conversations, send images, and share location data. The chat data is stored both online and offline using Google Firestore Database.
+Chirp is a chat application built using React Native, Expo, and Google Firestore Database. The app allows users to enter their name, choose a background color for the chat screen, engage in text conversations, send images, and share location data. The chat data is stored both online and offline using Google Firestore Database.
+
+## Table of Contents
+
+- [Key Features](#key-features)
+- [Screenshots](#screenshots)
+- [Setting up the Development Environment](#setting-up-the-development-environment)
+- [Database Configuration](#database-configuration)
+- [Necessary Libraries to Install](#necessary-libraries-to-install)
+- [Running the App](#running-the-app)
 
 ## Key Features
 
@@ -14,26 +23,36 @@ This is a chat application built using React Native, Expo, and Google Firestore 
 
 ## Screenshots
 
-![Start screen](assets/StartScreen.png)
-![Chat screen](assets/ChatScreen.png)
+![Start screen](screenshots/start_screen.png)
+Start screen
 
-### Setting up the Development Environment
+![Chat screen](screenshots/chat_screen.png)
+Chat screen
 
-1. **Expo:** Set up an Expo account. Make sure you have Expo CLI installed. If not, you can install it globally using npm:
+## Setting up the Development Environment
 
-npm install -g expo-cli
+To set up the development environment for Chirp, follow these steps:
 
-2. **Android Studio:** If you plan to run the app on an Android emulator, you'll need to set up Android Studio. Follow the official Expo guide for instructions on setting up the Android development environment: [Expo Android Development Environment](https://docs.expo.dev/workflow/android-studio-emulator/)
+1. **Expo Setup:**
 
-### Database Configuration
+   - Create an Expo account.
+   - Install Expo CLI globally using npm:
 
-This app uses Firebase as the backend database. To configure Firebase:
+   ```bash
+   npm install -g expo-cli
+   ```
 
-1. Visit the [Firebase Console](https://console.firebase.google.com/) and create a new project if you don't have one already. In the "Rules" tab, change "allow read, write: if false;" to "allow read, write: if true;"
+2. **Android Studio Setup (Optional):**
+   - If you plan to run the app on an Android emulator, set up Android Studio. Follow the official Expo guide for Android development environment setup: [Expo Android Development Environment](https://docs.expo.dev/workflow/android-studio-emulator/)
 
-2. Set up Firebase Authentication (Anonymous Authentication is used in this app) and Firestore Database. Make sure to enable anonymous authentication in Firebase.
+## Database Configuration
 
-3. Obtain the Firebase configuration object for your project. It should look something like this:
+Chirp uses Firebase as the backend database. To configure Firebase:
+
+1. Visit the [Firebase Console](https://console.firebase.google.com/) and create a new project if you don't have one already.
+2. In the "Rules" tab, change "allow read, write: if false;" to "allow read, write: if true;"
+3. Set up Firebase Authentication (Anonymous Authentication is used in this app) and Firestore Database. Make sure to enable anonymous authentication in Firebase.
+4. Obtain the Firebase configuration object for your project. It should look something like this:
 
 ```javascript
 const firebaseConfig = {
@@ -54,6 +73,7 @@ In the App.js file of your project, replace the firebaseConfig object with your 
 Before running the app, make sure to install the required dependencies using npm or yarn:
 (Expo only supports Node up to version 16.19.0, please ensure you are using this version)
 
+```
 npm install
 @react-native-async-storage/async-storage
 @react-native-community/netinfo
@@ -67,6 +87,7 @@ react-native-screens
 expo-image-picker
 expo-location
 react-native-maps
+```
 
 This will install all the dependencies needed to run the app.
 
@@ -74,13 +95,13 @@ This will install all the dependencies needed to run the app.
 
 Now that you've set up the environment and Firebase, you can run the app:
 
+```
 expo start
+```
 
 This command will start the Expo development server, and you can run the app on an emulator or a physical device.
 
-(expo start -c to clear cache)
-(expo start --offline for offline testing)
+    Use expo start -c to clear cache.
+    Use expo start --offline for offline testing.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Feel free to reach out if you have any questions, encounter issues, or have feedback. We're here to make your chat experience exceptional.
