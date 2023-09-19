@@ -23,11 +23,13 @@ Chirp is a chat application built using React Native, Expo, and Google Firestore
 
 ## Screenshots
 
-![Start screen](screenshots/start_screen.png)
-Start screen
+<p align="center">
+  <img src="assets/StartScreen.png" alt="Start screen" width="300"/>
+</p>
 
-![Chat screen](screenshots/chat_screen.png)
-Chat screen
+<p align="center">
+  <img src="assets/ChatScreen.png" alt="Chat screen" width="300"/>
+</p>
 
 ## Setting up the Development Environment
 
