@@ -14,8 +14,8 @@ This is a chat application built using React Native, Expo, and Google Firestore 
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
+![Start screen](assets/StartScreen.png)
+![Chat screen](assets/ChatScreen.png)
 
 ### Setting up the Development Environment
 
